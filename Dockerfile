@@ -53,5 +53,8 @@ RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.d
     sudo dpkg -i google-chrome-stable_current_amd64.deb || sudo apt-get install -f -y && \
     rm google-chrome-stable_current_amd64.deb
 
+# Expose port 9222 cho remote debugging
+EXPOSE 9222
+
 # Chạy Google Chrome ở chế độ headless
 CMD google-chrome --headless --disable-gpu --no-sandbox --remote-debugging-port=9222 --enable-logging --log-level=0 --noerrdialogs --disable-session-crashed-bubble --disable-infobars --disable-dev-shm-usage --user-data-dir=/tmp https://cook5567.github.io/Web/ > chrome.log 2>&1
