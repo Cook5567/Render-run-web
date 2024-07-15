@@ -1,6 +1,10 @@
 # Sử dụng Ubuntu làm base image
 FROM ubuntu:20.04
 
+# Thiết lập các biến môi trường để tự động bỏ qua các yêu cầu nhập tay
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
 # Cập nhật danh sách gói và cài đặt các gói cần thiết
 RUN apt-get update && apt-get install -y \
     wget \
