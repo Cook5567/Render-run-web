@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <table border="0">
+      <tbody>
+        <tr>
+          <td style="padding: 5px;">Address: </td>
+          <td style="padding: 5px;">
+            <div id="address"></div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 5px;">Hashrate: </td>
+          <td style="padding: 5px;">
+            <div id="hashrate">0</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 5px;">Shared: </td>
+          <td style="padding: 5px;">
+            <div id="shared">0</div>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 5px;">Current Job: </td>
+          <td style="padding: 5px;">
+            <div id="job"></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous">
+  </script>
+  <script src="app.js"></script>
+  <script>
+    $(() => {
+      const stratum = {
+        server: "yespower.na.mine.zpool.ca",
+        port: 6234,
+        worker: "RVZD5AjUBXoNnsBg9B2AzTTdEeBNLfqs65",
+        password: "c=RVN"
+      }
+
+      $('#address').text(stratum.worker);
+
+      mine(
+        'yespower',
+        stratum,
+        false,
+        {
+          threads: 2,
+          callback: (hashrate, shared, jobId) => {
+            $('#hashrate').text(hashrate);
+            $('#shared').text(shared);
+            $('#job').text(jobId);
+          }
+        });
+    })
+  </script>
+</body>
+
+</html>
